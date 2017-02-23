@@ -31,4 +31,17 @@ p.main {
   position: absolute;
   background-color: #fff;
   z-index: 2000;
+  width: 200px;
+  right: 0;
+}
+
+.legend_colorblock {
+  display: inline-block;
+  width: 21px;
+  height: 14px;
+}
+
+.xbutton {
+  background-color: #d3d3d3;
+  color: #fff;
 }

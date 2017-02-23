@@ -121,13 +121,70 @@ Use Underscore to perform analysis on this GeoJSON data: which day of
 the week was the most common for garbage removal? Update the original state
 of the application to report this information.
 
+http://leafletjs.com/reference.html#featuregroup
+
+
 ===================== */
 
-var dataset = "https://raw.githubusercontent.com/CPLN692-MUSA611/datasets/master/geojson/philadelphia-garbage-collection-boundaries.geojson"
+/*
+
+var dataset = "https://raw.githubusercontent.com/CPLN692-MUSA611/datasets/master/geojson/philadelphia-garbage-collection-boundaries.geojson";
 var featureGroup;
 
 var myStyle = function(feature) {
-  return {};
+  switch (feature.properties.COLLDAY) {
+      case 'MON': return {color: "#c47d96"};
+      case 'TUE':   return {color: "#e59494"};
+      case 'WED':   return {color: "#905b5b"};
+      case 'THU':   return {color: "#9c1414"};
+      case 'FRI':   return {color: "#ffc1c1"};
+    }
+};
+
+/*
+
+var myStyle = function(feature) {
+  return {fillColor: 'red'};
+};
+
+
+var downloadData = $.ajax("https://raw.githubusercontent.com/CPLN692-MUSA611/datasets/master/geojson/philadelphia-garbage-collection-boundaries.geojson");
+downloadData.done(function(data) {
+  var parsedData = JSON.parse(data);
+
+L.geoJson(parsedData, {
+style: function(feature) {
+    switch (feature.properties.COLLDAY) {
+        case 'MON':   return {color: "#c47d96"};
+        case 'TUE':   return {color: "#e59494"};
+        case 'WED':   return {color: "#905b5b"};
+        case 'THU':   return {color: "#9c1414"};
+        case 'FRI':   return {color: "#ffc1c1"};
+    }
+}
+}).addTo(map);
+
+L.geoJson(parsedData, {
+    filter: function(feature, layer) {
+        return feature.properties.COLLDAY !== " ";
+    }
+}).addTo(map);
+});
+
+eachLayer(<Function>)
+*/
+
+var dataset = "https://raw.githubusercontent.com/CPLN692-MUSA611/datasets/master/geojson/philadelphia-garbage-collection-boundaries.geojson";
+var featureGroup;
+
+var myStyle = function(feature) {
+  switch (feature.properties.COLLDAY) {
+      case 'MON': return {color: "#c47d96"};
+      case 'TUE':   return {color: "#e59494"};
+      case 'WED':   return {color: "#905b5b"};
+      case 'THU':   return {color: "#9c1414"};
+      case 'FRI':   return {color: "#ffc1c1"};
+    }
 };
 
 var showResults = function() {
@@ -144,6 +201,19 @@ var showResults = function() {
 };
 
 
+
+var dayOfWeek = function (toFullName){
+  switch (toFullName){
+    case 'MON':   return "MONDAY";
+    case 'TUE':   return "TUESDAY";
+    case 'WED':   return "WEDNESDAY";
+    case 'THU':   return "THURSDAY";
+    case 'FRI':   return "FRIDAY";
+  }
+};
+
+
+
 var eachFeatureFunction = function(layer) {
   layer.on('click', function (event) {
     /* =====================
@@ -152,13 +222,32 @@ var eachFeatureFunction = function(layer) {
     you can use in your application.
     ===================== */
     console.log(layer.feature);
+
+    var displayDay = layer.feature.properties.COLLDAY;
+    $(".day-of-week").text(dayOfWeek(displayDay));
+
+    map.fitBounds(layer.getBounds());
+
     showResults();
   });
 };
 
+
 var myFilter = function(feature) {
+  if (feature.properties.COLLDAY !== " "){
   return true;
+}
 };
+
+var closeResults = function() {
+  $('#intro').show();
+  $('#results').hide();
+};
+
+$(".xbutton").click(function(){
+  closeResults();
+  map.fitBounds(layer.getBounds());
+});
 
 $(document).ready(function() {
   $.ajax(dataset).done(function(data) {

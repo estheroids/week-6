@@ -18,6 +18,22 @@ downloadData.done(function(data) {
   Start your code here
   ================================ */
 
+/*
+_.each(parsedData, function(item){
+console.log(item.NAME, item['NOTES']);
+var myHtml = '<div class="item"><h3>'+item.NAME+'</h3><p>'+item.NOTES+'</p></div>';
+});
+
+var myHtml = '<div class="item"><h3>Solar Name</h3><p>Solar Description</p></div>';
+$(*.sidebar*).append(myHtml);
+$("#items").html(myHtml);
+
+var allOfMyHtml = "";
+_.each(parsedData,function(item){
+allOfMyHtml += '<div class="item"><h3>'+item.NAME+'</h3><p>'+item.NOTES+'</p></div>';
+})
+
+
   /* ================================
   End your code here
   ================================ */
